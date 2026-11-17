@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a1628" />
+  <meta name="description" content="GoalRush 3D - Play realistic 3D football with friends online or locally" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="GoalRush" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/png" href="/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <title>GoalRush 3D</title>
+  <link rel="stylesheet" href="/styles/main.css" />
+</head>
+<body>
+  <div id="app">
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+      <div class="loading-content">
+        <div class="logo-large">
+          <div class="logo-ball"></div>
+          <h1>GOALRUSH</h1>
+          <p class="tagline">3D FOOTBALL</p>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="load-progress"></div>
+        </div>
+        <p id="load-text">Loading assets...</p>
+      </div>
+    </div>
+
+    <!-- Main Menu -->
+    <div id="main-menu" class="screen">
+      <div class="menu-bg"></div>
+      <div class="menu-content">
+        <div class="logo">
+          <div class="logo-ball"></div>
+          <h1>GOALRUSH</h1>
+          <p class="tagline">3D FOOTBALL</p>
+        </div>
+        <nav class="menu-nav">
+          <button class="menu-btn primary" data-action="quick-match">
+            <span class="btn-icon">⚡</span>
+            <span>Quick Match</span>
+          </button>
+          <button class="menu-btn" data-action="multiplayer">
+            <span class="btn-icon">👥</span>
+            <span>Play with Friends</span>
+          </button>
+          <button class="menu-btn" data-action="local">
+            <span class="btn-icon">🏠</span>
+            <span>Local Multiplayer</span>
+          </button>
+          <button class="menu-btn" data-action="penalties">
+            <span class="btn-icon">🎯</span>
+            <span>Penalty Shootout</span>
+          </button>
+          <button class="menu-btn" data-action="tournament">
+            <span class="btn-icon">🏆</span>
+            <span>Tournament</span>
+          </button>
+          <button class="menu-btn" data-action="practice">
+            <span class="btn-icon">⚽</span>
+            <span>Practice Mode</span>
+          </button>
+          <button class="menu-btn secondary" data-action="settings">
+            <span class="btn-icon">⚙️</span>
+            <span>Settings</span>
+          </button>
+        </nav>
+        <div class="menu-footer">
+          <p>v1.0.0 • Online & Offline Ready</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multiplayer Lobby -->
+    <div id="lobby-screen" class="screen">
+      <div class="lobby-container">
+        <h2>Multiplayer Lobby</h2>
+        <div class="lobby-options">
+          <div class="lobby-card">
+            <h3>Create Room</h3>
+            <p>Create a private room and invite friends</p>
+            <button class="menu-btn primary" id="create-room-btn">Create Room</button>
+            <div id="room-info" class="room-info hidden">
+              <p>Room Code: <strong id="room-code">----</strong></p>
+              <input type="text" id="share-link" readonly />
+              <button class="menu-btn small" id="copy-link-btn">Copy Invite Link</button>
+            </div>
+          </div>
+          <div class="lobby-card">
+            <h3>Join Room</h3>
+            <p>Enter a room code to join friends</p>
+            <input type="text" id="join-code" placeholder="Enter room code" maxlength="6" />
+            <button class="menu-btn primary" id="join-room-btn">Join Room</button>
+          </div>
+        </div>
+        <div id="players-list" class="players-list hidden">
+          <h3>Players in Lobby</h3>
+          <ul id="lobby-players"></ul>
+          <div class="team-select">
+            <label>Your Team:</label>
+            <select id="team-select">
+              <option value="home">Home (Blue)</option>
+              <option value="away">Away (Red)</option>
+            </select>
+          </div>
+          <button class="menu-btn primary" id="start-match-btn" disabled>Start Match</button>
+        </div>
+        <button class="menu-btn secondary back-btn" data-action="back-menu">← Back</button>
+      </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settings-screen" class="screen">
+      <div class="settings-container">
+        <h2>Settings</h2>
+        <div class="setting-group">
+          <label>Graphics Quality</label>
+          <select id="graphics-quality">
+            <option value="high">High</option>
+            <option value="medium" selected>Medium</option>
+            <option value="low">Low</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label>Sound Effects</label>
+          <input type="range" id="sfx-volume" min="0" max="100" value="70" />
+        </div>
+        <div class="setting-group">
+          <label>Music</label>
+          <input type="range" id="music-volume" min="0" max="100" value="40" />
+        </div>
+        <div class="setting-group">
+          <label>Camera Mode</label>
+          <select id="camera-mode">
+            <option value="follow">Follow Player</option>
+            <option value="broadcast">Broadcast</option>
+            <option value="free">Free Look</option>
+          </select>
+        </div>
+        <div class="setting-group">
+          <label>Day / Night</label>
+          <select id="lighting-mode">
+            <option value="day">Day</option>
+            <option value="night" selected>Night</option>
+          </select>
+        </div>
+        <button class="menu-btn primary" id="save-settings">Save Settings</button>
+        <button class="menu-btn secondary back-btn" data-action="back-menu">← Back</button>
+      </div>
+    </div>
+
+    <!-- In-Game HUD -->
+    <div id="hud" class="hidden">
+      <div class="scoreboard">
+        <div class="team home">
+          <span class="team-name" id="home-name">HOME</span>
+          <span class="score" id="home-score">0</span>
+        </div>
+        <div class="match-info">
+          <div class="timer" id="match-timer">00:00</div>
+          <div class="period" id="match-period">1st Half</div>
+        </div>
+        <div class="team away">
+          <span class="score" id="away-score">0</span>
+          <span class="team-name" id="away-name">AWAY</span>
+        </div>
+      </div>
+      <div class="controls-hint" id="controls-hint">
+        <span>WASD Move</span>
+        <span>Shift Sprint</span>
+        <span>Space Shoot</span>
+        <span>E Pass</span>
+      </div>
+      <div id="mobile-controls" class="mobile-controls hidden">
+        <div class="joystick-area" id="joystick-area">
+          <div class="joystick-base">
+            <div class="joystick-stick" id="joystick-stick"></div>
+          </div>
+        </div>
+        <div class="action-buttons">
+          <button class="action-btn" id="btn-pass">PASS</button>
+          <button class="action-btn primary" id="btn-shoot">SHOOT</button>
+          <button class="action-btn" id="btn-sprint">SPRINT</button>
+        </div>
+      </div>
+      <button id="pause-btn" class="pause-btn">❚❚</button>
+    </div>
+
+    <!-- Pause Menu -->
+    <div id="pause-menu" class="screen overlay">
+      <div class="pause-content">
+        <h2>Paused</h2>
+        <button class="menu-btn primary" data-action="resume">Resume</button>
+        <button class="menu-btn" data-action="restart">Restart Match</button>
+        <button class="menu-btn secondary" data-action="quit-menu">Quit to Menu</button>
+      </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="screen">
+      <div class="results-content">
+        <h2 id="result-title">Match Result</h2>
+        <div class="final-score">
+          <div class="team-result home">
+            <span id="result-home-name">HOME</span>
+            <span id="result-home-score">0</span>
+          </div>
+          <div class="vs">-</div>
+          <div class="team-result away">
+            <span id="result-away-score">0</span>
+            <span id="result-away-name">AWAY</span>
+          </div>
+        </div>
+        <div class="match-stats" id="match-stats"></div>
+        <button class="menu-btn primary" data-action="play-again">Play Again</button>
+        <button class="menu-btn secondary" data-action="quit-menu">Main Menu</button>
+      </div>
+    </div>
+
+    <!-- Game Canvas Container -->
+    <div id="game-container" class="hidden">
+      <canvas id="game-canvas"></canvas>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
