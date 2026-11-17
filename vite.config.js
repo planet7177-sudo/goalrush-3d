@@ -17,10 +17,14 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icons/*.png', 'manifest.json'],
-      manifest: false, // we use our own public/manifest.json
+      injectRegister: 'auto',
+      manifest: false,
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        navigateFallback: '/index.html'
+      },
+      devOptions: {
+        enabled: false
       }
     })
   ]
