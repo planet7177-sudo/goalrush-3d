@@ -1,14 +1,19 @@
-name = "goalrush-multiplayer"
-main = "worker/multiplayer.js"
+# Cloudflare Pages project
+# Multiplayer Worker is optional — deploy it separately later if needed.
+
+name = "goalrush-3d"
 compatibility_date = "2024-09-01"
 
-[[durable_objects.bindings]]
-name = "ROOMS"
-class_name = "RoomDurableObject"
-
-[[migrations]]
-tag = "v1"
-new_classes = ["RoomDurableObject"]
-
-# For Pages + Functions integration you can also place this under functions/
-# or use Pages with a separate Worker route.
+# --- Multiplayer Worker (optional) ---
+# Uncomment the lines below ONLY when you are ready to deploy
+# the Durable Object worker separately (requires paid plan or correct migration).
+#
+# main = "worker/multiplayer.js"
+#
+# [[durable_objects.bindings]]
+# name = "ROOMS"
+# class_name = "RoomDurableObject"
+#
+# [[migrations]]
+# tag = "v1"
+# new_sqlite_classes = ["RoomDurableObject"]
